@@ -8,30 +8,23 @@
 * Author URI: https://vipestudio.com
 **/
 
-//Paypal FeE
-/**
- * Add a fee when the user checks out with PayPal
- */
 function wcfad_apply_payment_gateway_fee() {
  $payment_method = WC()->session->get( 'chosen_payment_method' );
- // Only apply the fee if the payment gateway is PayPal
- // Note that you might need to check this slug, depending on the PayPal gateway you're using
- if( $payment_method == 'paypal' ) {
+	
+if( $payment_method == 'paypal' ) {  // Payment Method Slug
  $label = __( 'PayPal такса (3.40%)', 'wcfad' ); //Give your fee a name
 $percentageChange = 3.40; //Define the % from the order total
-//Our original number.
 $originalNumber = WC()->cart->get_cart_contents_total();
 $numberToAdd = ($originalNumber / 100) * $percentageChange;
 	 
- // Change the third parameter to false if you don't wish to apply tax to the fee
- // Change the fourth parameter to a different tax class if required
+ // Third paramater is tax application
+ // Fourht is the tax slug
  WC()->cart->add_fee( $label, $numberToAdd, true, 'standard' );
  }
 }
 add_action( 'woocommerce_cart_calculate_fees', 'wcfad_apply_payment_gateway_fee' );
-/**
- * Add some JS
- */
+
+//JS
 function wcfad_script() {
  ?>
  <script>
